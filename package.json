@@ -1,0 +1,20 @@
+{
+  "name": "samparc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Shriyash Mandavekar",
+  "license": "ISC",
+  "dependencies": {
+    "assert": "^2.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongodb": "^5.6.0",
+    "mongoose": "^7.3.1",
+    "router": "^1.3.8"
+  }
+}
