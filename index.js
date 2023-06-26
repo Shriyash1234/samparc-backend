@@ -31,7 +31,7 @@ const quizResponseSchema = new mongoose.Schema({
 });
 const quizResponse = mongoose.model("quizResponses", quizResponseSchema);
 
-app.get("/", async (req, res) => {
+app.get("/responses", async (req, res) => {
   try {
     const quizresponses = await quizResponse.find().exec();
     res.json(quizresponses);
@@ -55,7 +55,7 @@ app.post("/addquizresponse",function(req,res){
   });;
    res.redirect("http://localhost:3000/Samparc")  
 })
-const port = 4000;
+const port = process.env.port||4000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
