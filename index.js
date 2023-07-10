@@ -26,35 +26,87 @@ mongoose
     console.log(error);
   });
 
-const quizResponseSchema = new mongoose.Schema({
-  Response: String,
-});
-const quizResponse = mongoose.model("quizResponses", quizResponseSchema);
+  const quizResponseSchema = new mongoose.Schema({
+    responses: {
+      type: Object,
+      default: {},
+    },
+  });
+  const quizRegisterationSchema = new mongoose.Schema({
+    responses: Object
+  });
+  const QuizResponse = mongoose.model("quizResponses", quizResponseSchema);
+  const Registration = mongoose.model("registrations", quizRegisterationSchema);
 
 app.get("/responses", async (req, res) => {
   try {
-    const quizresponses = await quizResponse.find().exec();
+    const quizresponses = await QuizResponse.find().exec();
     res.json(quizresponses);
   } catch (err) {
     console.error('Failed to retrieve data from the collection:', err);
     res.status(500).json({ error: 'Failed to retrieve data' });
   }
 });
-app.post("/addquizresponse",function(req,res){  
-  const selectedOption = req.body.selectedOption; 
-  console.log('Selected Option:', selectedOption);                    
-  const response = new quizResponse({
-    Response:selectedOption,
+app.get("/registerations", async (req, res) => {
+  try {
+    const registerations = await Registration.find().exec();
+    res.json(registerations);
+  } catch (err) {
+    console.error('Failed to retrieve data from the collection:', err);
+    res.status(500).json({ error: 'Failed to retrieve data' });
+  }
+});
+
+app.post("/addquizresponses", function (req, res) {
+  const quizResponses = req.body.quizResponses;
+  console.log(quizResponses);
+
+  const response = new QuizResponse({
+    registration: {},
   });
-  response.save()
-  .then(() => {
-    console.log("Response Saved succesfully");
-  })
-  .catch(function (err) {
-    console.log(err);
-  });;
-   res.redirect("http://localhost:3000/Samparc")  
-})
+
+  quizResponses.forEach((responseObj, index) => {
+    const responseKey = `response${index + 1}`;
+    response.responses[responseKey] = {
+      question: responseObj.question,
+      selectedOption: responseObj.selectedOption,
+    };
+  });
+
+  response
+    .save()
+    .then(() => {
+      console.log("Quiz responses saved successfully");
+      res.redirect("https://shriyash1234.github.io/Samparc/");
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send("Error saving quiz responses");
+    });
+});
+
+app.post("/addRegistration", function (req, res) {
+  const registrationData = req.body;
+  console.log(registrationData);
+
+  const registerResponse = new Registration({
+    responses: registrationData,
+  });
+
+  registerResponse
+    .save()
+    .then(() => {
+      console.log("Registration saved successfully");
+      res.redirect("https://shriyash1234.github.io/Samparc/");
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send("Error saving registration");
+    });
+});
+
+
+
 const port = process.env.port||4000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
