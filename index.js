@@ -27,6 +27,14 @@ mongoose
   });
 
   const quizResponseSchema = new mongoose.Schema({
+    details:{
+      type: Object,
+      default: {},
+    },
+    score:{
+      type: Object,
+      default: {},
+    },
     responses: {
       type: Object,
       default: {},
@@ -64,14 +72,25 @@ app.post("/addquizresponses", function (req, res) {
   const response = new QuizResponse({
     registration: {},
   });
-
+  response.details['personal'] ={
+    name:quizResponses[0].name,
+    mail:quizResponses[0].mail,
+    time:quizResponses[0].time,
+    timetaken:quizResponses[0].timetaken
+  } 
+  response.score['scores'] ={
+    score:quizResponses[0].score,
+    numberOfQuestions:quizResponses.length - 1
+  }
+  console.log('prev',response)
   quizResponses.forEach((responseObj, index) => {
-    const responseKey = `response${index + 1}`;
+    const responseKey = `response${index}`;
     response.responses[responseKey] = {
       question: responseObj.question,
       selectedOption: responseObj.selectedOption,
     };
   });
+  console.log('after',response)
 
   response
     .save()
