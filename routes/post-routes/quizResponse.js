@@ -30,7 +30,7 @@ router.post("/addquizresponses", function (req, res) {
     response
       .save()
       .then(() => {
-        res.redirect("https://shriyash1234.github.io/Samparc/");
+        res.json({ success: true, message: "Quiz response Added" });
       })
       .catch((err) => {
         res.status(500).send("Error saving quiz responses");
