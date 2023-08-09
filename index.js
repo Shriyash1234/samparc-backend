@@ -25,12 +25,16 @@ const addUserPassword = require('./routes/post-routes/userPassword')
 const checkPassword = require('./routes/post-routes/checkPassword')
 const checkMail = require('./routes/post-routes/checkMail')
 const addContestRegistration = require('./routes/post-routes/contestRegisterations')
+const updateProfileRegisteration = require('./routes/post-routes/updateProfileRegisteration')
+const updateProfileGivenRegisteration = require('./routes/post-routes/updateProfileGivenRegisterations')
 app.use(addQuizResponse);
 app.use(addRegistration);
 app.use(addUserPassword);
 app.use(checkPassword);
 app.use(checkMail);
 app.use(addContestRegistration)
+app.use(updateProfileRegisteration)
+app.use(updateProfileGivenRegisteration)
 
 //Connecting MongoDB
 const dbName = "Samparc";
