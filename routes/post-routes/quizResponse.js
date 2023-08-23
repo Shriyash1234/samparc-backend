@@ -13,6 +13,7 @@ router.post("/addquizresponses", function (req, res) {
       name:quizResponses[0].name,
       mail:quizResponses[0].mail,
       time:quizResponses[0].time,
+      contestCode:quizResponses[0].contestCode,
       timetaken:quizResponses[0].timetaken
     } 
     response.score['scores'] ={
